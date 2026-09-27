@@ -14,32 +14,41 @@ namespace Ex9
                 Console.WriteLine("1 - Inserir Produto");
                 Console.WriteLine("2 - Listar Produtos");
                 Console.WriteLine("3 - Sair");
-
+                
                 op = int.Parse(Console.ReadLine());
                 if (op == 1)
                 {
-                    Produto p = new Produto();
-                    Console.WriteLine("Digite o nome do produto: ");
-                    p.Nome = Console.ReadLine();
 
-                    Console.WriteLine("Digite a quantidade do produto: ");
-                    p.Quantidade = int.Parse(Console.ReadLine());
+                    if(a.ContarProdutos() >= 5)
+                    {
+                        Console.WriteLine("Você atingiu o limite de produtos cadastrados.");
+                    }
+                    else
+                    {
+                        Produto p = new Produto();
 
-                    Console.WriteLine("Digite o preço do produto: ");
-                    p.Preco = double.Parse(Console.ReadLine());
+                        Console.WriteLine("Digite o nome do produto: ");
+                        p.Nome = Console.ReadLine();
 
-                    string linha;
-                    linha = $"Produto: {p.Nome} | Quantidade: {p.Quantidade} | Preço: {p.Preco}";
-                    //linha = "Produto: " + p.Nome + "| " + "Quantidade: " + p.Quantidade + "| " + "Preco: " + $"{p.Preco:F2}";
-                    Console.WriteLine("Linha: " + linha);
-                    a.CriaAbreArquivo();
-                    a.GravarLinha(linha);
-                    a.FecharSalvarArquivo();
+                        Console.WriteLine("Digite a quantidade do produto: ");
+                        p.Quantidade = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine("Digite o preço do produto: ");
+                        p.Preco = double.Parse(Console.ReadLine());
+
+                        string linha;
+                        linha = $"{p.Nome},{p.Quantidade},{p.Preco.ToString("F2").Replace(",", ".")}";
+                        //linha = "Produto: " + p.Nome + ", " + "Quantidade: " + p.Quantidade + ", " + "Preco: " + $"{p.Preco:F2}";
+                        Console.WriteLine("Linha: " + linha);
+                        a.CriaAbreArquivo();
+                        a.GravarLinha(linha);
+                        a.FecharSalvarArquivo();
+                    }
 
                 }
                 else if (op == 2)
                 {
-
+                    a.LerArquivo();
                 }
                 else if (op == 3)
                 {

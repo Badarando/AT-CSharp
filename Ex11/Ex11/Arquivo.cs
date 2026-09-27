@@ -1,40 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Ex9
+namespace Ex11
 {
     internal class Arquivo
     {
-
         private StreamWriter _sw;
         private StreamReader _sr;
-
         public void CriaAbreArquivo()
         {
             Directory.CreateDirectory("C:\\Arquivos");
-
-            _sw = File.AppendText("C:\\Arquivos\\Estoque.txt");
+            _sw = File.AppendText("C:\\Arquivos\\Contatos.txt");
         }
+
         public void GravarLinha(string linha)
         {
             _sw.WriteLine(linha);
         }
 
-        public int ContarProdutos()
+        public int ContarContatos()
         {
-            if (!File.Exists("C:\\Arquivos\\Estoque.txt"))
+            if (!File.Exists("C:\\Arquivos\\Contatos.txt"))
             {
                 return 0;
             }
-
             int quantidade = 0;
             String linha;
 
-            _sr = new StreamReader("C:\\Arquivos\\Estoque.txt");
+            _sr = new StreamReader("C:\\Arquivos\\Contatos.txt");
             linha = _sr.ReadLine();
-
-            while (linha != null)
+            while(linha!= null)
             {
                 quantidade++;
                 linha = _sr.ReadLine();
@@ -45,33 +42,41 @@ namespace Ex9
         }
 
         public void LerArquivo()
-        { 
-            if (ContarProdutos() == 0)
+        {
+            if (ContarContatos() == 0)
             {
-                Console.WriteLine("Nenhum produto cadastrado.");
+                Console.WriteLine("Nenhum contato cadastrado.");
                 return;
             }
- 
-            string linha;
-            _sr = new StreamReader("C:\\Arquivos\\Estoque.txt");
-            linha = _sr.ReadLine();
-            
-            while (linha != null)
+
+            _sr = new StreamReader("C:\\Arquivos\\Contatos.txt");
+            Console.WriteLine("Contatos cadastrados: ");
+
+            string linha = _sr.ReadLine();
+
+            while(linha != null)
             {
                 string[] dados = linha.Split(',');
 
-                Console.WriteLine($"Produto: {dados[0]} | Quantidade: {dados[1]} | Preço: R$ {dados[2].Replace(".", ",")}");
+                if (dados.Length == 3)
+                {
+                    Console.WriteLine($"Nome: {dados[0]} | Telefone: {dados[1]} | Email: {dados[2]}");
+                }
+                else
+                {
+                    Console.WriteLine("Contato com formato inválido: " + linha);
+                }
 
                 linha = _sr.ReadLine();
             }
-            
-        _sr.Close();
+
+            _sr.Close();
+
         }
 
         public void FecharSalvarArquivo()
         {
             _sw.Close();
         }
-
     }
 }
